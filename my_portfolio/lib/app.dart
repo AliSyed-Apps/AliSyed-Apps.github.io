@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:my_portfolio/app/routes.dart';
 import 'data/portfolio_repository.dart';
-import 'ui/pages/portfolio_page.dart';
+
 import 'controllers/portfolio_controller.dart';
 import 'utils/theme.dart';
 
@@ -22,6 +23,8 @@ class PortfolioApp extends StatelessWidget {
           theme: buildLightTheme(),
           darkTheme: buildDarkTheme(),
           themeMode: themeController.themeMode.value,
+          initialRoute: '/',
+          getPages: AppPages.pageList,
           initialBinding: BindingsBuilder(() {
             Get.put<PortfolioRepository>(repository, permanent: true);
             Get.put<PortfolioController>(
@@ -32,7 +35,7 @@ class PortfolioApp extends StatelessWidget {
               Get.put<ThemeController>(themeController, permanent: true);
             }
           }),
-          home: const PortfolioPage(),
+          // home: PortfolioPage(),
         );
       },
     );

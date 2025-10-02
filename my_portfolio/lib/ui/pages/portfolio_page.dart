@@ -4,14 +4,10 @@ import '../widgets/sections.dart';
 import '../../controllers/portfolio_controller.dart';
 import '../../utils/theme.dart';
 
-class PortfolioPage extends StatefulWidget {
-  const PortfolioPage({super.key});
+// ignore: must_be_immutable
+class PortfolioPage extends StatelessWidget {
+  PortfolioPage({super.key});
 
-  @override
-  State<PortfolioPage> createState() => _PortfolioPageState();
-}
-
-class _PortfolioPageState extends State<PortfolioPage> {
   final GlobalKey _homeKey = GlobalKey();
   final GlobalKey _aboutKey = GlobalKey();
   final GlobalKey _skillsKey = GlobalKey();
@@ -33,6 +29,8 @@ class _PortfolioPageState extends State<PortfolioPage> {
     );
   }
 
+  var data = Get.find<PortfolioController>().data;
+
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
@@ -44,11 +42,11 @@ class _PortfolioPageState extends State<PortfolioPage> {
         );
 
         return Scaffold(
-          backgroundColor: const Color(0xFFF7F7FB),
+          // backgroundColor: const Color(0xFFF7F7FB),
           appBar: PreferredSize(
             preferredSize: const Size.fromHeight(72),
             child: Container(
-              color: Colors.white,
+              // color: Colors.white,
               padding: EdgeInsets.symmetric(horizontal: isWide ? 80 : 16),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -62,7 +60,7 @@ class _PortfolioPageState extends State<PortfolioPage> {
                       ),
                       const SizedBox(width: 12),
                       Text(
-                        Get.find<PortfolioController>().data.ownerName,
+                        data.ownerName,
                         style: Theme.of(context).textTheme.titleMedium
                             ?.copyWith(fontWeight: FontWeight.w700),
                       ),
@@ -70,21 +68,6 @@ class _PortfolioPageState extends State<PortfolioPage> {
                   ),
                   Row(
                     children: <Widget>[
-                      _TopNav(
-                        isWide: isWide,
-                        onTap: _scrollTo,
-                        keys: <String, GlobalKey>{
-                          'Home': _homeKey,
-                          'About': _aboutKey,
-                          'Skills': _skillsKey,
-                          'Experience': _experienceKey,
-                          'Education': _educationKey,
-                          'Certifications': _certificationsKey,
-                          'Projects': _projectsKey,
-                          'Contact': _contactKey,
-                        },
-                      ),
-                      const SizedBox(width: 8),
                       Obx(() {
                         final ThemeMode mode =
                             Get.find<ThemeController>().themeMode.value;
@@ -99,6 +82,21 @@ class _PortfolioPageState extends State<PortfolioPage> {
                           ),
                         );
                       }),
+                      const SizedBox(width: 8),
+                      _TopNav(
+                        isWide: isWide,
+                        onTap: _scrollTo,
+                        keys: <String, GlobalKey>{
+                          'Home': _homeKey,
+                          'About': _aboutKey,
+                          'Skills': _skillsKey,
+                          'Experience': _experienceKey,
+                          'Education': _educationKey,
+                          'Certifications': _certificationsKey,
+                          'Projects': _projectsKey,
+                          'Contact': _contactKey,
+                        },
+                      ),
                     ],
                   ),
                 ],
@@ -114,10 +112,7 @@ class _PortfolioPageState extends State<PortfolioPage> {
                   color: Colors.transparent,
                   child: Padding(
                     padding: pagePadding,
-                    child: HeroSection(
-                      isWide: isWide,
-                      data: Get.find<PortfolioController>().data,
-                    ),
+                    child: HeroSection(isWide: isWide, data: data),
                   ),
                 ),
                 const DividerStripe(),
@@ -125,72 +120,52 @@ class _PortfolioPageState extends State<PortfolioPage> {
                   key: _aboutKey,
                   child: Padding(
                     padding: pagePadding,
-                    child: AboutSection(
-                      isWide: isWide,
-                      data: Get.find<PortfolioController>().data,
-                    ),
+                    child: AboutSection(isWide: isWide, data: data),
                   ),
                 ),
                 Section(
                   key: _skillsKey,
-                  color: const Color(0xFFF1F0F5),
+                  // color: const Color(0xFFF1F0F5),
                   child: Padding(
                     padding: pagePadding,
-                    child: SkillsSection(
-                      isWide: isWide,
-                      data: Get.find<PortfolioController>().data,
-                    ),
+                    child: SkillsSection(isWide: isWide, data: data),
                   ),
                 ),
                 Section(
                   key: _experienceKey,
                   child: Padding(
                     padding: pagePadding,
-                    child: ExperienceSection(
-                      isWide: isWide,
-                      data: Get.find<PortfolioController>().data,
-                    ),
+                    child: ExperienceSection(isWide: isWide, data: data),
                   ),
                 ),
                 Section(
                   key: _educationKey,
-                  color: const Color(0xFFF1F0F5),
+                  // color: const Color(0xFFF1F0F5),
                   child: Padding(
                     padding: pagePadding,
-                    child: EducationSection(
-                      isWide: isWide,
-                      data: Get.find<PortfolioController>().data,
-                    ),
+                    child: EducationSection(isWide: isWide, data: data),
                   ),
                 ),
                 Section(
                   key: _certificationsKey,
                   child: Padding(
                     padding: pagePadding,
-                    child: CertificationSection(
-                      isWide: isWide,
-                      data: Get.find<PortfolioController>().data,
-                    ),
+                    child: CertificationSection(isWide: isWide, data: data),
                   ),
                 ),
                 Section(
                   key: _projectsKey,
                   child: Padding(
                     padding: pagePadding,
-                    child: ProjectsSection(
-                      isWide: isWide,
-                      data: Get.find<PortfolioController>().data,
-                    ),
+                    child: ProjectsSection(isWide: isWide, data: data),
                   ),
                 ),
                 Section(
                   key: _contactKey,
-                  color: const Color(0xFFF1F0F5),
+                  // color: const Color(0xFFF1F0F5),
                   child: Padding(
                     padding: pagePadding,
-                    child: ContactSection(
-                      data: Get.find<PortfolioController>().data,
-                    ),
+                    child: ContactSection(data: data),
                   ),
                 ),
                 const FooterSection(),
@@ -215,29 +190,29 @@ class _TopNav extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (isWide) {
-      return Row(
-        children: keys.entries
-            .map(
-              (MapEntry<String, GlobalKey> e) => TextButton(
-                onPressed: () => onTap(e.value),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 12,
-                    vertical: 8,
-                  ),
-                  child: Text(
-                    e.key,
-                    style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
-              ),
-            )
-            .toList(),
-      );
-    }
+    // if (isWide) {
+    //   return Row(
+    //     children: keys.entries
+    //         .map(
+    //           (MapEntry<String, GlobalKey> e) => TextButton(
+    //             onPressed: () => onTap(e.value),
+    //             child: Padding(
+    //               padding: const EdgeInsets.symmetric(
+    //                 horizontal: 12,
+    //                 vertical: 8,
+    //               ),
+    //               child: Text(
+    //                 e.key,
+    //                 style: Theme.of(context).textTheme.labelLarge?.copyWith(
+    //                   fontWeight: FontWeight.w600,
+    //                 ),
+    //               ),
+    //             ),
+    //           ),
+    //         )
+    //         .toList(),
+    //   );
+    // }
     return PopupMenuButton<String>(
       icon: const Icon(Icons.menu),
       onSelected: (String value) => onTap(keys[value]!),

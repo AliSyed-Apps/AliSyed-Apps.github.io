@@ -9,7 +9,10 @@ class Section extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(color: color ?? Colors.white, child: child);
+    return Container(
+      child: child,
+      // color: color ?? Colors.white,
+    );
   }
 }
 
@@ -70,9 +73,7 @@ class HeroSection extends StatelessWidget {
               children: <Widget>[
                 Text(
                   'Hello, I\'m',
-                  style: Theme.of(
-                    context,
-                  ).textTheme.titleMedium?.copyWith(color: Colors.black54),
+                  style: Theme.of(context).textTheme.titleMedium,
                 ),
                 const SizedBox(height: 8),
                 Text(
@@ -169,7 +170,7 @@ class AboutSection extends StatelessWidget {
         const SizedBox(height: 16),
         Card(
           elevation: 0,
-          color: Colors.white,
+          // color: Colors.white,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
@@ -245,7 +246,7 @@ class _SkillCardState extends State<_SkillCard> {
       onVisibilityChanged: _onVisibility,
       child: Card(
         elevation: 0,
-        color: Colors.white,
+        // color: Colors.white,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         child: Padding(
           padding: const EdgeInsets.all(16),
@@ -272,7 +273,7 @@ class _SkillCardState extends State<_SkillCard> {
                       builder: (BuildContext context, double value, Widget? _) {
                         return LinearProgressIndicator(
                           value: value,
-                          backgroundColor: const Color(0xFFECEAF2),
+                          // backgroundColor: const Color(0xFFECEAF2),
                           color: const Color(0xFF6750A4),
                           minHeight: 8,
                           borderRadius: BorderRadius.circular(20),
@@ -400,7 +401,7 @@ class _ProjectsSectionState extends State<ProjectsSection> {
                           curve: Curves.easeOut,
                           child: Card(
                             elevation: 0,
-                            color: Colors.white,
+                            // color: Colors.white,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(12),
                             ),
@@ -447,14 +448,17 @@ class _ProjectsSectionState extends State<ProjectsSection> {
                                         ),
                                       ),
                                       const SizedBox(height: 12),
-                                      Align(
-                                        alignment: Alignment.bottomRight,
-                                        child: TextButton.icon(
-                                          onPressed: project.link == null
-                                              ? null
-                                              : () {},
-                                          icon: const Icon(Icons.open_in_new),
-                                          label: const Text('View'),
+                                      Visibility(
+                                        visible: project.link != null,
+                                        child: Align(
+                                          alignment: Alignment.bottomRight,
+                                          child: TextButton.icon(
+                                            onPressed: project.link == null
+                                                ? null
+                                                : () {},
+                                            icon: const Icon(Icons.open_in_new),
+                                            label: const Text('View'),
+                                          ),
                                         ),
                                       ),
                                     ],
@@ -563,7 +567,7 @@ class ExperienceSection extends StatelessWidget {
               padding: const EdgeInsets.only(bottom: 16),
               child: Card(
                 elevation: 0,
-                color: Colors.white,
+                // color: Colors.white,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
@@ -585,17 +589,14 @@ class ExperienceSection extends StatelessWidget {
                           ),
                           Text(
                             exp.period,
-                            style: Theme.of(context).textTheme.labelLarge
-                                ?.copyWith(color: Colors.black54),
+                            style: Theme.of(context).textTheme.labelLarge,
                           ),
                         ],
                       ),
                       const SizedBox(height: 8),
                       Text(
                         exp.locationType,
-                        style: Theme.of(
-                          context,
-                        ).textTheme.labelLarge?.copyWith(color: Colors.black54),
+                        style: Theme.of(context).textTheme.labelLarge,
                       ),
                       const SizedBox(height: 12),
                       ...exp.roles.map((Role role) {
@@ -612,8 +613,8 @@ class ExperienceSection extends StatelessWidget {
                               const SizedBox(height: 4),
                               Text(
                                 role.period,
-                                style: Theme.of(context).textTheme.labelLarge
-                                    ?.copyWith(color: Colors.black54),
+                                style: Theme.of(context).textTheme.labelLarge,
+                                // ?.copyWith(color: Colors.black54),
                               ),
                               const SizedBox(height: 8),
                               Column(
@@ -692,7 +693,7 @@ class EducationSection extends StatelessWidget {
             final Education edu = data.education[index];
             return Card(
               elevation: 0,
-              color: Colors.white,
+              // color: Colors.white,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
               ),
@@ -707,21 +708,26 @@ class EducationSection extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
-                          Text(
-                            edu.institution,
-                            style: Theme.of(context).textTheme.titleMedium
-                                ?.copyWith(fontWeight: FontWeight.w700),
+                          Flexible(
+                            child: Text(
+                              edu.institution,
+                              style: Theme.of(context).textTheme.titleMedium
+                                  ?.copyWith(fontWeight: FontWeight.w700),
+                            ),
                           ),
                           const SizedBox(height: 4),
-                          Text(
-                            edu.degree,
-                            style: Theme.of(context).textTheme.bodyMedium,
+                          Flexible(
+                            child: Text(
+                              edu.degree,
+                              style: Theme.of(context).textTheme.bodyMedium,
+                            ),
                           ),
                           const SizedBox(height: 4),
-                          Text(
-                            edu.period,
-                            style: Theme.of(context).textTheme.labelLarge
-                                ?.copyWith(color: Colors.black54),
+                          Flexible(
+                            child: Text(
+                              edu.period,
+                              style: Theme.of(context).textTheme.labelLarge,
+                            ),
                           ),
                         ],
                       ),
@@ -767,7 +773,7 @@ class CertificationSection extends StatelessWidget {
             final Certification cert = data.certifications[index];
             return Card(
               elevation: 0,
-              color: Colors.white,
+              // color: Colors.white,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
               ),
@@ -782,21 +788,26 @@ class CertificationSection extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
-                          Text(
-                            cert.title,
-                            style: Theme.of(context).textTheme.titleMedium
-                                ?.copyWith(fontWeight: FontWeight.w700),
+                          Flexible(
+                            child: Text(
+                              cert.title,
+                              style: Theme.of(context).textTheme.titleMedium
+                                  ?.copyWith(fontWeight: FontWeight.w700),
+                            ),
                           ),
                           const SizedBox(height: 4),
-                          Text(
-                            cert.issuer,
-                            style: Theme.of(context).textTheme.bodyMedium,
+                          Flexible(
+                            child: Text(
+                              cert.issuer,
+                              style: Theme.of(context).textTheme.bodyMedium,
+                            ),
                           ),
                           const SizedBox(height: 4),
-                          Text(
-                            cert.period,
-                            style: Theme.of(context).textTheme.labelLarge
-                                ?.copyWith(color: Colors.black54),
+                          Flexible(
+                            child: Text(
+                              cert.period,
+                              style: Theme.of(context).textTheme.labelLarge,
+                            ),
                           ),
                         ],
                       ),
@@ -824,7 +835,7 @@ class ContactSection extends StatelessWidget {
         const SizedBox(height: 12),
         Card(
           elevation: 0,
-          color: Colors.white,
+          // color: Colors.white,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
@@ -863,15 +874,14 @@ class FooterSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.white,
+      // color: Colors.white,
       padding: const EdgeInsets.symmetric(vertical: 24),
       child: Column(
         children: <Widget>[
           Text(
             '© ${DateTime.now().year} Your Name — Flutter Developer',
-            style: Theme.of(
-              context,
-            ).textTheme.bodySmall?.copyWith(color: Colors.black54),
+            style: Theme.of(context).textTheme.bodySmall,
+            // ?.copyWith(color: Colors.black54),
           ),
           const SizedBox(height: 8),
           const DividerStripe(),
@@ -889,7 +899,7 @@ class _Chip extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: BoxDecoration(
-        color: const Color(0xFFF7F7FB),
+        // color: const Color(0xFFF7F7FB),
         borderRadius: BorderRadius.circular(20),
         border: Border.all(color: const Color(0xFFE4E1EC)),
       ),

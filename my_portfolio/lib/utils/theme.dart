@@ -42,14 +42,17 @@ ThemeData buildDarkTheme() {
       seedColor: const Color(0xFF6750A4),
       brightness: Brightness.dark,
     ),
+
     useMaterial3: true,
     brightness: Brightness.dark,
   );
+
   return base.copyWith(
     textTheme: base.textTheme.apply(
       bodyColor: Colors.white,
       displayColor: Colors.white,
     ),
+
     scaffoldBackgroundColor: const Color(0xFF121218),
     cardColor: const Color(0xFF1A1B22),
   );
