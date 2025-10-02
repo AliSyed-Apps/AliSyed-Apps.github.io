@@ -7,9 +7,9 @@ import 'controllers/portfolio_controller.dart';
 import 'utils/theme.dart';
 
 class PortfolioApp extends StatelessWidget {
-  const PortfolioApp({super.key, required this.repository});
-
   final PortfolioRepository repository;
+
+  const PortfolioApp({super.key, required this.repository});
 
   @override
   Widget build(BuildContext context) {

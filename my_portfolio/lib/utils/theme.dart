@@ -14,7 +14,7 @@ class ThemeController extends GetxController {
     if (themeMode.value == ThemeMode.dark) {
       themeMode.value = ThemeMode.light;
     } else {
-      themeMode.value = ThemeMode.system;
+      themeMode.value = ThemeMode.dark;
     }
     update();
   }
@@ -33,6 +33,7 @@ ThemeData buildLightTheme() {
     ),
     scaffoldBackgroundColor: const Color(0xFFF7F7FB),
     cardColor: Colors.white,
+    dividerTheme: DividerThemeData(color: Colors.black12),
   );
 }
 
@@ -55,5 +56,6 @@ ThemeData buildDarkTheme() {
 
     scaffoldBackgroundColor: const Color(0xFF121218),
     cardColor: const Color(0xFF1A1B22),
+    dividerTheme: DividerThemeData(color: Colors.white12),
   );
 }

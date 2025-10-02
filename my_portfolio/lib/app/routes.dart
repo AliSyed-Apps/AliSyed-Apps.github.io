@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 import 'package:my_portfolio/app/bindings.dart';
-import 'package:my_portfolio/ui/pages/portfolio_page.dart';
+import 'package:my_portfolio/view/portfolio/portfolio_page.dart';
 
 class AppPages {
   static List<GetPage<dynamic>> pageList = [

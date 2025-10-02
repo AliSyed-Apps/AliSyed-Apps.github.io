@@ -6,8 +6,8 @@ void main() {
   const PortfolioConfig config = PortfolioConfig(
     ownerName: 'Syed Ali Mehdi',
     email: 'syedalimehdi76@gmail.com',
-    github: 'github.com/yourhandle',
-    linkedin: 'linkedin.com/in/yourhandle',
+    github: 'github.com/AliSyed-Apps',
+    linkedin: 'linkedin.com/in/ali-syed-aa6990180',
   );
 
   final PortfolioRepository repository = InMemoryPortfolioRepository(

@@ -1,4 +1,4 @@
-import '../domain/models.dart';
+import '../model/models.dart';
 
 abstract class PortfolioRepository {
   PortfolioData getPortfolio();
