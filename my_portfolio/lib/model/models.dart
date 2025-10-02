@@ -25,9 +25,10 @@ class PortfolioData {
 }
 
 class Skill {
-  const Skill({required this.name, required this.proficiency});
+  const Skill({required this.name, required this.proficiency, this.image});
   final String name;
   final double proficiency;
+  final String? image;
 }
 
 class Project {

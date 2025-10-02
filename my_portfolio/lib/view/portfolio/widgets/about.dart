@@ -52,7 +52,7 @@ class _Chip extends StatelessWidget {
       decoration: BoxDecoration(
         // color: const Color(0xFFF7F7FB),
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: const Color(0xFFE4E1EC)),
+        border: Border.all(color: Theme.of(context).highlightColor),
       ),
       child: Text(text, style: Theme.of(context).textTheme.labelLarge),
     );

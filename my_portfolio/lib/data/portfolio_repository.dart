@@ -1,3 +1,5 @@
+import 'package:my_portfolio/utils/img.dart';
+
 import '../model/models.dart';
 
 abstract class PortfolioRepository {
@@ -5,9 +7,8 @@ abstract class PortfolioRepository {
 }
 
 class InMemoryPortfolioRepository implements PortfolioRepository {
-  InMemoryPortfolioRepository({required this.config});
-
   final PortfolioConfig config;
+  InMemoryPortfolioRepository({required this.config});
 
   @override
   PortfolioData getPortfolio() {
@@ -17,15 +18,20 @@ class InMemoryPortfolioRepository implements PortfolioRepository {
       summary:
           'Mobile Developer with 3+ years of experience building high-quality cross-platform applications using Flutter. Successfully published 5+ apps to the App Store and Google Play, collectively exceeding 50,000 users. My main focus is on mobile applications.',
       skills: <Skill>[
-        const Skill(name: 'Flutter (Dart)', proficiency: 0.95),
-        const Skill(name: 'Node.js', proficiency: 0.8),
-        const Skill(name: 'PHP (Laravel)', proficiency: 0.7),
-        const Skill(name: 'Python', proficiency: 0.8),
-        const Skill(name: 'Socket.io', proficiency: 0.75),
-        const Skill(name: 'REST APIs', proficiency: 0.85),
-        const Skill(name: 'Communication', proficiency: 0.9),
-        const Skill(name: 'Firebase Auth', proficiency: 0.8),
-        const Skill(name: 'Firebase Services', proficiency: 0.8),
+        Skill(name: 'Flutter', proficiency: 0.95, image: AppImages.flutter),
+        Skill(name: 'Node.js', proficiency: 0.8, image: AppImages.nodeJs),
+        Skill(name: 'PHP (Laravel)', proficiency: 0.7, image: AppImages.php),
+        Skill(name: 'Python', proficiency: 0.8, image: AppImages.python),
+        Skill(name: 'MongoDB', proficiency: 0.8, image: AppImages.mongoDB),
+        Skill(name: 'Socket.io', proficiency: 0.75, image: AppImages.socketIO),
+        Skill(name: 'REST APIs', proficiency: 0.85, image: AppImages.restAPI),
+        Skill(name: 'Firebase', proficiency: 0.8, image: AppImages.firebase),
+
+        Skill(
+          name: 'Communication',
+          proficiency: 0.9,
+          image: AppImages.communication,
+        ),
       ],
       highlights: const <String>[
         'Clean Architecture',
@@ -34,22 +40,27 @@ class InMemoryPortfolioRepository implements PortfolioRepository {
         'Provider',
         'Bloc',
         'Animations',
-        'REST/GraphQL',
+        'REST',
+        'SocketIO',
+        'App Publishing',
         'Firebase',
-        'CI/CD',
+        'Google Map',
+        'Push Notification',
       ],
       projects: const <Project>[
         Project(
           title: 'Shop - Go',
           description:
               'Comprehensive Flutter app integrating courier service websites to provide secure, convenient shipping. Laravel PHP backend handles data management and auth. Includes in-app web view, real-time tracking, secure payments, and user profiles for a seamless courier experience.',
-          link: null,
+          link:
+              'https://play.google.com/store/apps/details?id=co.proglabs.shop_go&pcampaignid=web_share',
         ),
         Project(
           title: 'Christian Business Finder',
           description:
               'Flutter app connecting users with businesses. Implemented secure PHP (Laravel) backend to protect data and restrict unauthorized access. Features detailed business info, user registration, and church-centric discovery for a seamless, privacy-focused platform.',
-          link: null,
+          link:
+              'https://play.google.com/store/apps/details?id=com.cbf.christian_business_finder&pcampaignid=web_share',
         ),
         Project(
           title: 'Black Game',

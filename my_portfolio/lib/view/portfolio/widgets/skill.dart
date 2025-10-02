@@ -55,6 +55,7 @@ class _SkillCardState extends State<_SkillCard> {
   @override
   Widget build(BuildContext context) {
     final double target = _triggered ? widget.skill.proficiency : 0.0;
+
     return VisibilityDetector(
       key: ValueKey<String>('skill-${widget.skill.name}'),
       onVisibilityChanged: _onVisibility,
@@ -66,7 +67,15 @@ class _SkillCardState extends State<_SkillCard> {
           padding: const EdgeInsets.all(16),
           child: Row(
             children: <Widget>[
-              const Icon(Icons.check_circle, color: Color(0xFF6750A4)),
+              Image.asset(
+                widget.skill.image ?? '',
+                width: 35,
+                height: 35,
+                fit: BoxFit.fitHeight,
+                // color: Color(0xFF6750A4),
+                // colorBlendMode: BlendMode.srcIn,
+              ),
+
               const SizedBox(width: 12),
               Expanded(
                 child: Column(

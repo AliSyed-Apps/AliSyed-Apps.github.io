@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_portfolio/model/models.dart';
 import 'package:my_portfolio/view/portfolio/widgets/sections.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ProjectsSection extends StatefulWidget {
   const ProjectsSection({super.key, required this.isWide, required this.data});
@@ -106,6 +107,7 @@ class _ProjectsSectionState extends State<ProjectsSection> {
                       );
                       final double opacity = 1.0 - (distance * 0.25);
                       final double parallax = (index - page) * 12.0;
+
                       return Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 8),
                         child: AnimatedScale(
@@ -168,7 +170,11 @@ class _ProjectsSectionState extends State<ProjectsSection> {
                                           child: TextButton.icon(
                                             onPressed: project.link == null
                                                 ? null
-                                                : () {},
+                                                : () async {
+                                                    await launchUrl(
+                                                      Uri.parse(project.link!),
+                                                    );
+                                                  },
                                             icon: const Icon(Icons.open_in_new),
                                             label: const Text('View'),
                                           ),
@@ -201,9 +207,7 @@ class _ProjectsSectionState extends State<ProjectsSection> {
                         },
                         icon: const Icon(Icons.chevron_left),
                         style: IconButton.styleFrom(
-                          backgroundColor: Colors.white,
                           foregroundColor: const Color(0xFF6750A4),
-                          shadowColor: Colors.black12,
                         ),
                       ),
                     ),
@@ -224,9 +228,7 @@ class _ProjectsSectionState extends State<ProjectsSection> {
                         },
                         icon: const Icon(Icons.chevron_right),
                         style: IconButton.styleFrom(
-                          backgroundColor: Colors.white,
                           foregroundColor: const Color(0xFF6750A4),
-                          shadowColor: Colors.black12,
                         ),
                       ),
                     ),

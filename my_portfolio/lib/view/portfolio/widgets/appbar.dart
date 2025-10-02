@@ -12,8 +12,8 @@ PreferredSizeWidget customAppbar(
 ) {
   return PreferredSize(
     preferredSize: const Size.fromHeight(72),
+
     child: Container(
-      // color: Colors.white,
       padding: EdgeInsets.symmetric(horizontal: isWide ? 80 : 16),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -44,6 +44,9 @@ PreferredSizeWidget customAppbar(
                   tooltip: isDark ? 'Switch to Light' : 'Switch to Dark',
                   onPressed: Get.find<ThemeController>().toggleTheme,
                   icon: Icon(isDark ? Icons.light_mode : Icons.dark_mode),
+                  style: ButtonStyle(
+                    backgroundColor: WidgetStatePropertyAll(Colors.transparent),
+                  ),
                 );
               }),
               const SizedBox(width: 8),
@@ -93,6 +96,9 @@ class _TopNav extends StatelessWidget {
     // }
     return PopupMenuButton<String>(
       icon: const Icon(Icons.menu),
+      style: ButtonStyle(
+        backgroundColor: WidgetStatePropertyAll(Colors.transparent),
+      ),
       onSelected: (String value) => onTap(keys[value]!),
       itemBuilder: (BuildContext context) => keys.keys
           .map((String e) => PopupMenuItem<String>(value: e, child: Text(e)))

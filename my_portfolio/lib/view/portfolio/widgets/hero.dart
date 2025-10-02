@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_portfolio/model/models.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HeroSection extends StatelessWidget {
   const HeroSection({super.key, required this.isWide, required this.data});
@@ -64,12 +65,20 @@ class HeroSection extends StatelessWidget {
                       : WrapAlignment.center,
                   children: <Widget>[
                     FilledButton.icon(
-                      onPressed: () {},
+                      onPressed: () async {
+                        String email = data.contacts.email;
+                        String url = 'mailto:$email?subject=&body=';
+                        await launchUrl(Uri.parse(url));
+                      },
                       icon: const Icon(Icons.email),
                       label: const Text('Contact Me'),
                     ),
                     OutlinedButton.icon(
-                      onPressed: () {},
+                      onPressed: () async {
+                        String url =
+                            'https://drive.google.com/file/d/12N9wH28T6_t4MVUnrmottIzcv4N-BtHb/view?usp=drivesdk';
+                        await launchUrl(Uri.parse(url));
+                      },
                       icon: const Icon(Icons.file_download),
                       label: const Text('Download CV'),
                     ),
@@ -89,12 +98,12 @@ class HeroSection extends StatelessWidget {
               aspectRatio: 1,
               child: Container(
                 decoration: BoxDecoration(
-                  color: const Color(0xFF6750A4).withOpacity(0.08),
+                  color: const Color(0xFF6750A4).withAlpha(40),
                   borderRadius: BorderRadius.circular(16),
                 ),
                 child: const Center(
                   child: Icon(
-                    Icons.flutter_dash,
+                    Icons.flutter_dash_rounded,
                     size: 120,
                     color: Color(0xFF6750A4),
                   ),

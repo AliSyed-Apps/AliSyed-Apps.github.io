@@ -15,7 +15,6 @@ class ContactSection extends StatelessWidget {
         const SizedBox(height: 12),
         Card(
           elevation: 0,
-          // color: Colors.white,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
@@ -24,6 +23,7 @@ class ContactSection extends StatelessWidget {
             child: Wrap(
               spacing: 16,
               runSpacing: 12,
+
               children: <Widget>[
                 _ContactItem(
                   icon: Icons.email,
@@ -50,14 +50,16 @@ class ContactSection extends StatelessWidget {
 }
 
 class _ContactItem extends StatelessWidget {
+  final IconData icon;
+  final String label;
+  final String value;
+
   const _ContactItem({
     required this.icon,
     required this.label,
     required this.value,
   });
-  final IconData icon;
-  final String label;
-  final String value;
+
   @override
   Widget build(BuildContext context) {
     return Row(

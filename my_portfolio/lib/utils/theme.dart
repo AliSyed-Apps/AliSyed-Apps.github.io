@@ -31,9 +31,13 @@ ThemeData buildLightTheme() {
       bodyColor: const Color(0xFF1C1B1F),
       displayColor: const Color(0xFF1C1B1F),
     ),
+    iconButtonTheme: IconButtonThemeData(
+      style: ButtonStyle(backgroundColor: WidgetStatePropertyAll(Colors.white)),
+    ),
     scaffoldBackgroundColor: const Color(0xFFF7F7FB),
-    cardColor: Colors.white,
+    cardTheme: CardThemeData(color: Color(0xFF6750A4).withAlpha(23)),
     dividerTheme: DividerThemeData(color: Colors.black12),
+    highlightColor: Colors.black45,
   );
 }
 
@@ -55,7 +59,13 @@ ThemeData buildDarkTheme() {
     ),
 
     scaffoldBackgroundColor: const Color(0xFF121218),
-    cardColor: const Color(0xFF1A1B22),
+    cardTheme: CardThemeData(color: Color(0xFF6750A4).withAlpha(23)),
+    iconButtonTheme: IconButtonThemeData(
+      style: ButtonStyle(
+        backgroundColor: WidgetStatePropertyAll(Colors.white10),
+      ),
+    ),
     dividerTheme: DividerThemeData(color: Colors.white12),
+    highlightColor: Colors.white,
   );
 }
