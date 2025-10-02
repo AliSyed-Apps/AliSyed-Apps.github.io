@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 import '../../domain/models.dart';
 
 class Section extends StatelessWidget {
@@ -198,7 +199,7 @@ class SkillsSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
-        const SectionHeader(title: 'Skills'),
+        const SectionHeader(title: 'Key Skills'),
         const SizedBox(height: 12),
         GridView.builder(
           shrinkWrap: true,
@@ -212,6 +213,483 @@ class SkillsSection extends StatelessWidget {
           itemCount: data.skills.length,
           itemBuilder: (BuildContext context, int index) {
             final Skill skill = data.skills[index];
+            return _SkillCard(skill: skill);
+          },
+        ),
+      ],
+    );
+  }
+}
+
+class _SkillCard extends StatefulWidget {
+  const _SkillCard({required this.skill});
+  final Skill skill;
+  @override
+  State<_SkillCard> createState() => _SkillCardState();
+}
+
+class _SkillCardState extends State<_SkillCard> {
+  bool _triggered = false;
+
+  void _onVisibility(VisibilityInfo info) {
+    if (!_triggered && info.visibleFraction > 0.4) {
+      setState(() => _triggered = true);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final double target = _triggered ? widget.skill.proficiency : 0.0;
+    return VisibilityDetector(
+      key: ValueKey<String>('skill-${widget.skill.name}'),
+      onVisibilityChanged: _onVisibility,
+      child: Card(
+        elevation: 0,
+        color: Colors.white,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Row(
+            children: <Widget>[
+              const Icon(Icons.check_circle, color: Color(0xFF6750A4)),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      widget.skill.name,
+                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    TweenAnimationBuilder<double>(
+                      tween: Tween<double>(begin: 0, end: target),
+                      duration: const Duration(milliseconds: 900),
+                      curve: Curves.easeOutCubic,
+                      builder: (BuildContext context, double value, Widget? _) {
+                        return LinearProgressIndicator(
+                          value: value,
+                          backgroundColor: const Color(0xFFECEAF2),
+                          color: const Color(0xFF6750A4),
+                          minHeight: 8,
+                          borderRadius: BorderRadius.circular(20),
+                        );
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class ProjectsSection extends StatefulWidget {
+  const ProjectsSection({super.key, required this.isWide, required this.data});
+  final bool isWide;
+  final PortfolioData data;
+  @override
+  State<ProjectsSection> createState() => _ProjectsSectionState();
+}
+
+class _ProjectsSectionState extends State<ProjectsSection> {
+  PageController? _controller;
+  int _current = 0;
+  double _viewportFraction = 0.9;
+  double _entranceOpacity = 0.0;
+  double _entranceOffset = 24.0;
+
+  double _computeViewportFraction(double width) {
+    if (width >= 1400) return 0.45;
+    if (width >= 1100) return 0.55;
+    if (width >= 900) return 0.65;
+    if (width >= 600) return 0.8;
+    return 0.92;
+  }
+
+  void _ensureController(double fraction) {
+    if (_controller == null) {
+      _viewportFraction = fraction;
+      _controller = PageController(viewportFraction: _viewportFraction);
+      return;
+    }
+    if ((fraction - _viewportFraction).abs() > 0.001) {
+      final int page = _current;
+      _controller!.dispose();
+      _viewportFraction = fraction;
+      _controller = PageController(
+        viewportFraction: _viewportFraction,
+        initialPage: page,
+      );
+      setState(() {});
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      setState(() {
+        _entranceOpacity = 1.0;
+        _entranceOffset = 0.0;
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _controller?.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final double width = MediaQuery.of(context).size.width;
+    final double fraction = _computeViewportFraction(width);
+    _ensureController(fraction);
+    final double cardHeight = width >= 900 ? 260 : 340;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: <Widget>[
+        const SectionHeader(title: 'Projects'),
+        const SizedBox(height: 12),
+        AnimatedOpacity(
+          duration: const Duration(milliseconds: 450),
+          curve: Curves.easeOutCubic,
+          opacity: _entranceOpacity,
+          child: AnimatedPadding(
+            duration: const Duration(milliseconds: 450),
+            curve: Curves.easeOutCubic,
+            padding: EdgeInsets.only(top: _entranceOffset),
+            child: SizedBox(
+              height: cardHeight,
+              child: Stack(
+                alignment: Alignment.center,
+                children: <Widget>[
+                  PageView.builder(
+                    controller: _controller!,
+                    physics: const PageScrollPhysics(),
+                    allowImplicitScrolling: true,
+                    itemCount: widget.data.projects.length,
+                    onPageChanged: (int index) =>
+                        setState(() => _current = index),
+                    itemBuilder: (BuildContext context, int index) {
+                      final Project project = widget.data.projects[index];
+                      final double page =
+                          (_controller!.hasClients && _controller!.page != null)
+                          ? _controller!.page!
+                          : _current.toDouble();
+                      final double distance = (index - page).abs().clamp(
+                        0.0,
+                        1.0,
+                      );
+                      final double opacity = 1.0 - (distance * 0.25);
+                      final double parallax = (index - page) * 12.0;
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8),
+                        child: AnimatedScale(
+                          scale: _current == index ? 1.0 : 0.98,
+                          duration: const Duration(milliseconds: 250),
+                          curve: Curves.easeOut,
+                          child: Card(
+                            elevation: 0,
+                            color: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: AnimatedOpacity(
+                              duration: const Duration(milliseconds: 250),
+                              curve: Curves.easeOut,
+                              opacity: opacity,
+                              child: Padding(
+                                padding: const EdgeInsets.all(16),
+                                child: Transform.translate(
+                                  offset: Offset(parallax, 0),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Row(
+                                        children: <Widget>[
+                                          const Icon(
+                                            Icons.apps,
+                                            color: Color(0xFF6750A4),
+                                          ),
+                                          const SizedBox(width: 8),
+                                          Expanded(
+                                            child: Text(
+                                              project.title,
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .titleMedium
+                                                  ?.copyWith(
+                                                    fontWeight: FontWeight.w700,
+                                                  ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      const SizedBox(height: 12),
+                                      Expanded(
+                                        child: Text(
+                                          project.description,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium
+                                              ?.copyWith(height: 1.5),
+                                        ),
+                                      ),
+                                      const SizedBox(height: 12),
+                                      Align(
+                                        alignment: Alignment.bottomRight,
+                                        child: TextButton.icon(
+                                          onPressed: project.link == null
+                                              ? null
+                                              : () {},
+                                          icon: const Icon(Icons.open_in_new),
+                                          label: const Text('View'),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                  if (widget.data.projects.length > 1)
+                    Positioned(
+                      left: 0,
+                      child: IconButton(
+                        onPressed: () {
+                          final int prev = (_current - 1).clamp(
+                            0,
+                            widget.data.projects.length - 1,
+                          );
+                          _controller!.animateToPage(
+                            prev,
+                            duration: const Duration(milliseconds: 300),
+                            curve: Curves.easeOut,
+                          );
+                        },
+                        icon: const Icon(Icons.chevron_left),
+                        style: IconButton.styleFrom(
+                          backgroundColor: Colors.white,
+                          foregroundColor: const Color(0xFF6750A4),
+                          shadowColor: Colors.black12,
+                        ),
+                      ),
+                    ),
+                  if (widget.data.projects.length > 1)
+                    Positioned(
+                      right: 0,
+                      child: IconButton(
+                        onPressed: () {
+                          final int next = (_current + 1).clamp(
+                            0,
+                            widget.data.projects.length - 1,
+                          );
+                          _controller!.animateToPage(
+                            next,
+                            duration: const Duration(milliseconds: 300),
+                            curve: Curves.easeOut,
+                          );
+                        },
+                        icon: const Icon(Icons.chevron_right),
+                        style: IconButton.styleFrom(
+                          backgroundColor: Colors.white,
+                          foregroundColor: const Color(0xFF6750A4),
+                          shadowColor: Colors.black12,
+                        ),
+                      ),
+                    ),
+                ],
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(height: 12),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: List<Widget>.generate(
+            widget.data.projects.length,
+            (int i) => AnimatedContainer(
+              duration: const Duration(milliseconds: 250),
+              margin: const EdgeInsets.symmetric(horizontal: 4),
+              width: _current == i ? 16 : 8,
+              height: 8,
+              decoration: BoxDecoration(
+                color: _current == i
+                    ? const Color(0xFF6750A4)
+                    : const Color(0xFFE0DCEB),
+                borderRadius: BorderRadius.circular(8),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class ExperienceSection extends StatelessWidget {
+  const ExperienceSection({
+    super.key,
+    required this.isWide,
+    required this.data,
+  });
+  final bool isWide;
+  final PortfolioData data;
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: <Widget>[
+        const SectionHeader(title: 'Work Experience'),
+        const SizedBox(height: 12),
+        Column(
+          children: data.experiences.map((Experience exp) {
+            return Padding(
+              padding: const EdgeInsets.only(bottom: 16),
+              child: Card(
+                elevation: 0,
+                color: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Padding(
+                  padding: EdgeInsets.all(isWide ? 24 : 16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Row(
+                        children: <Widget>[
+                          const Icon(Icons.work, color: Color(0xFF6750A4)),
+                          const SizedBox(width: 8),
+                          Expanded(
+                            child: Text(
+                              exp.company,
+                              style: Theme.of(context).textTheme.titleMedium
+                                  ?.copyWith(fontWeight: FontWeight.w700),
+                            ),
+                          ),
+                          Text(
+                            exp.period,
+                            style: Theme.of(context).textTheme.labelLarge
+                                ?.copyWith(color: Colors.black54),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        exp.locationType,
+                        style: Theme.of(
+                          context,
+                        ).textTheme.labelLarge?.copyWith(color: Colors.black54),
+                      ),
+                      const SizedBox(height: 12),
+                      ...exp.roles.map((Role role) {
+                        return Padding(
+                          padding: const EdgeInsets.only(top: 8),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(
+                                role.title,
+                                style: Theme.of(context).textTheme.titleSmall
+                                    ?.copyWith(fontWeight: FontWeight.w700),
+                              ),
+                              const SizedBox(height: 4),
+                              Text(
+                                role.period,
+                                style: Theme.of(context).textTheme.labelLarge
+                                    ?.copyWith(color: Colors.black54),
+                              ),
+                              const SizedBox(height: 8),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: role.bullets.map((String b) {
+                                  return Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      vertical: 4,
+                                    ),
+                                    child: Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        const Padding(
+                                          padding: EdgeInsets.only(top: 6),
+                                          child: Icon(
+                                            Icons.circle,
+                                            size: 6,
+                                            color: Color(0xFF6750A4),
+                                          ),
+                                        ),
+                                        const SizedBox(width: 8),
+                                        Expanded(
+                                          child: Text(
+                                            b,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyMedium
+                                                ?.copyWith(height: 1.5),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                }).toList(),
+                              ),
+                            ],
+                          ),
+                        );
+                      }).toList(),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          }).toList(),
+        ),
+      ],
+    );
+  }
+}
+
+class EducationSection extends StatelessWidget {
+  const EducationSection({super.key, required this.isWide, required this.data});
+  final bool isWide;
+  final PortfolioData data;
+  @override
+  Widget build(BuildContext context) {
+    final int columns = isWide ? 2 : 1;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: <Widget>[
+        const SectionHeader(title: 'Education'),
+        const SizedBox(height: 12),
+        GridView.builder(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: columns,
+            crossAxisSpacing: 16,
+            mainAxisSpacing: 16,
+            childAspectRatio: isWide ? 3.5 : 3.0,
+          ),
+          itemCount: data.education.length,
+          itemBuilder: (BuildContext context, int index) {
+            final Education edu = data.education[index];
             return Card(
               elevation: 0,
               color: Colors.white,
@@ -222,7 +700,7 @@ class SkillsSection extends StatelessWidget {
                 padding: const EdgeInsets.all(16),
                 child: Row(
                   children: <Widget>[
-                    const Icon(Icons.check_circle, color: Color(0xFF6750A4)),
+                    const Icon(Icons.school, color: Color(0xFF6750A4)),
                     const SizedBox(width: 12),
                     Expanded(
                       child: Column(
@@ -230,17 +708,20 @@ class SkillsSection extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           Text(
-                            skill.name,
+                            edu.institution,
                             style: Theme.of(context).textTheme.titleMedium
                                 ?.copyWith(fontWeight: FontWeight.w700),
                           ),
-                          const SizedBox(height: 8),
-                          LinearProgressIndicator(
-                            value: skill.proficiency,
-                            backgroundColor: const Color(0xFFECEAF2),
-                            color: const Color(0xFF6750A4),
-                            minHeight: 8,
-                            borderRadius: BorderRadius.circular(20),
+                          const SizedBox(height: 4),
+                          Text(
+                            edu.degree,
+                            style: Theme.of(context).textTheme.bodyMedium,
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            edu.period,
+                            style: Theme.of(context).textTheme.labelLarge
+                                ?.copyWith(color: Colors.black54),
                           ),
                         ],
                       ),
@@ -256,17 +737,21 @@ class SkillsSection extends StatelessWidget {
   }
 }
 
-class ProjectsSection extends StatelessWidget {
-  const ProjectsSection({super.key, required this.isWide, required this.data});
+class CertificationSection extends StatelessWidget {
+  const CertificationSection({
+    super.key,
+    required this.isWide,
+    required this.data,
+  });
   final bool isWide;
   final PortfolioData data;
   @override
   Widget build(BuildContext context) {
-    final int columns = isWide ? 3 : 1;
+    final int columns = isWide ? 2 : 1;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
-        const SectionHeader(title: 'Projects'),
+        const SectionHeader(title: 'Certifications'),
         const SizedBox(height: 12),
         GridView.builder(
           shrinkWrap: true,
@@ -275,11 +760,11 @@ class ProjectsSection extends StatelessWidget {
             crossAxisCount: columns,
             crossAxisSpacing: 16,
             mainAxisSpacing: 16,
-            childAspectRatio: isWide ? 1.2 : 1.4,
+            childAspectRatio: isWide ? 3.5 : 3.0,
           ),
-          itemCount: data.projects.length,
+          itemCount: data.certifications.length,
           itemBuilder: (BuildContext context, int index) {
-            final Project project = data.projects[index];
+            final Certification cert = data.certifications[index];
             return Card(
               elevation: 0,
               color: Colors.white,
@@ -288,38 +773,32 @@ class ProjectsSection extends StatelessWidget {
               ),
               child: Padding(
                 padding: const EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                child: Row(
                   children: <Widget>[
-                    Row(
-                      children: <Widget>[
-                        const Icon(Icons.apps, color: Color(0xFF6750A4)),
-                        const SizedBox(width: 8),
-                        Expanded(
-                          child: Text(
-                            project.title,
+                    const Icon(Icons.verified, color: Color(0xFF6750A4)),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Text(
+                            cert.title,
                             style: Theme.of(context).textTheme.titleMedium
                                 ?.copyWith(fontWeight: FontWeight.w700),
                           ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 12),
-                    Expanded(
-                      child: Text(
-                        project.description,
-                        style: Theme.of(
-                          context,
-                        ).textTheme.bodyMedium?.copyWith(height: 1.5),
-                      ),
-                    ),
-                    const SizedBox(height: 12),
-                    Align(
-                      alignment: Alignment.bottomRight,
-                      child: TextButton.icon(
-                        onPressed: project.link == null ? null : () {},
-                        icon: const Icon(Icons.open_in_new),
-                        label: const Text('View'),
+                          const SizedBox(height: 4),
+                          Text(
+                            cert.issuer,
+                            style: Theme.of(context).textTheme.bodyMedium,
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            cert.period,
+                            style: Theme.of(context).textTheme.labelLarge
+                                ?.copyWith(color: Colors.black54),
+                          ),
+                        ],
                       ),
                     ),
                   ],

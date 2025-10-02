@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../widgets/sections.dart';
 import '../../controllers/portfolio_controller.dart';
+import '../../utils/theme.dart';
 
 class PortfolioPage extends StatefulWidget {
   const PortfolioPage({super.key});
@@ -14,9 +15,13 @@ class _PortfolioPageState extends State<PortfolioPage> {
   final GlobalKey _homeKey = GlobalKey();
   final GlobalKey _aboutKey = GlobalKey();
   final GlobalKey _skillsKey = GlobalKey();
+  final GlobalKey _experienceKey = GlobalKey();
+  final GlobalKey _educationKey = GlobalKey();
+  final GlobalKey _certificationsKey = GlobalKey();
   final GlobalKey _projectsKey = GlobalKey();
   final GlobalKey _contactKey = GlobalKey();
 
+  // navigation to the section
   Future<void> _scrollTo(GlobalKey key) async {
     final BuildContext? ctx = key.currentContext;
     if (ctx == null) return;
@@ -63,16 +68,38 @@ class _PortfolioPageState extends State<PortfolioPage> {
                       ),
                     ],
                   ),
-                  _TopNav(
-                    isWide: isWide,
-                    onTap: _scrollTo,
-                    keys: <String, GlobalKey>{
-                      'Home': _homeKey,
-                      'About': _aboutKey,
-                      'Skills': _skillsKey,
-                      'Projects': _projectsKey,
-                      'Contact': _contactKey,
-                    },
+                  Row(
+                    children: <Widget>[
+                      _TopNav(
+                        isWide: isWide,
+                        onTap: _scrollTo,
+                        keys: <String, GlobalKey>{
+                          'Home': _homeKey,
+                          'About': _aboutKey,
+                          'Skills': _skillsKey,
+                          'Experience': _experienceKey,
+                          'Education': _educationKey,
+                          'Certifications': _certificationsKey,
+                          'Projects': _projectsKey,
+                          'Contact': _contactKey,
+                        },
+                      ),
+                      const SizedBox(width: 8),
+                      Obx(() {
+                        final ThemeMode mode =
+                            Get.find<ThemeController>().themeMode.value;
+                        final bool isDark = mode == ThemeMode.dark;
+                        return IconButton(
+                          tooltip: isDark
+                              ? 'Switch to Light'
+                              : 'Switch to Dark',
+                          onPressed: Get.find<ThemeController>().toggleTheme,
+                          icon: Icon(
+                            isDark ? Icons.light_mode : Icons.dark_mode,
+                          ),
+                        );
+                      }),
+                    ],
                   ),
                 ],
               ),
@@ -110,6 +137,37 @@ class _PortfolioPageState extends State<PortfolioPage> {
                   child: Padding(
                     padding: pagePadding,
                     child: SkillsSection(
+                      isWide: isWide,
+                      data: Get.find<PortfolioController>().data,
+                    ),
+                  ),
+                ),
+                Section(
+                  key: _experienceKey,
+                  child: Padding(
+                    padding: pagePadding,
+                    child: ExperienceSection(
+                      isWide: isWide,
+                      data: Get.find<PortfolioController>().data,
+                    ),
+                  ),
+                ),
+                Section(
+                  key: _educationKey,
+                  color: const Color(0xFFF1F0F5),
+                  child: Padding(
+                    padding: pagePadding,
+                    child: EducationSection(
+                      isWide: isWide,
+                      data: Get.find<PortfolioController>().data,
+                    ),
+                  ),
+                ),
+                Section(
+                  key: _certificationsKey,
+                  child: Padding(
+                    padding: pagePadding,
+                    child: CertificationSection(
                       isWide: isWide,
                       data: Get.find<PortfolioController>().data,
                     ),

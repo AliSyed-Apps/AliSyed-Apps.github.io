@@ -6,6 +6,9 @@ class PortfolioData {
     required this.skills,
     required this.highlights,
     required this.projects,
+    required this.experiences,
+    required this.education,
+    required this.certifications,
     required this.contacts,
   });
 
@@ -15,6 +18,9 @@ class PortfolioData {
   final List<Skill> skills;
   final List<String> highlights;
   final List<Project> projects;
+  final List<Experience> experiences;
+  final List<Education> education;
+  final List<Certification> certifications;
   final Contacts contacts;
 }
 
@@ -40,4 +46,50 @@ class Contacts {
   final String email;
   final String github;
   final String linkedin;
+}
+
+class Experience {
+  const Experience({
+    required this.company,
+    required this.locationType,
+    required this.period,
+    required this.roles,
+  });
+  final String company;
+  final String locationType; // e.g., On-site, Remote, Hybrid
+  final String period; // e.g., Mar 2022 - Present
+  final List<Role> roles;
+}
+
+class Role {
+  const Role({
+    required this.title,
+    required this.period,
+    required this.bullets,
+  });
+  final String title;
+  final String period;
+  final List<String> bullets;
+}
+
+class Education {
+  const Education({
+    required this.institution,
+    required this.degree,
+    required this.period,
+  });
+  final String institution;
+  final String degree;
+  final String period;
+}
+
+class Certification {
+  const Certification({
+    required this.title,
+    required this.issuer,
+    required this.period,
+  });
+  final String title;
+  final String issuer;
+  final String period;
 }

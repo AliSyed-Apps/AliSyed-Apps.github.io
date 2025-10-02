@@ -4,8 +4,8 @@ import 'data/portfolio_repository.dart';
 
 void main() {
   const PortfolioConfig config = PortfolioConfig(
-    ownerName: 'Your Name',
-    email: 'you@example.com',
+    ownerName: 'Syed Ali Mehdi',
+    email: 'syedalimehdi76@gmail.com',
     github: 'github.com/yourhandle',
     linkedin: 'linkedin.com/in/yourhandle',
   );
