@@ -1,6 +1,7 @@
 class PortfolioData {
   const PortfolioData({
     required this.ownerName,
+    required this.image,
     required this.title,
     required this.summary,
     required this.skills,
@@ -13,6 +14,7 @@ class PortfolioData {
   });
 
   final String ownerName;
+  final String image;
   final String title;
   final String summary;
   final List<Skill> skills;

@@ -3,6 +3,7 @@ class AppImages {
   // static String profile = 'assets/profile/profile.png';
   // Projects
   static String p1 = 'assets/banner/project.png';
+  static String p2 = 'assets/banner/techs.png';
 
   // Skills
   static String flutter = 'assets/logo/flutter.png';

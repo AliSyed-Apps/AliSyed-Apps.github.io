@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_portfolio/model/models.dart';
+import 'package:my_portfolio/utils/img.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:my_portfolio/utils/glow.dart';
 
@@ -112,16 +113,19 @@ class HeroSection extends StatelessWidget {
             child: AspectRatio(
               aspectRatio: 1,
               child: Container(
+                padding: EdgeInsets.all(20),
                 decoration: BoxDecoration(
                   color: const Color(0xFF6750A4).withAlpha(40),
                   borderRadius: BorderRadius.circular(16),
                 ),
-                child: const Center(
-                  child: Icon(
-                    Icons.flutter_dash_rounded,
-                    size: 120,
-                    color: Color(0xFF6750A4),
-                  ),
+                child: Center(
+                  child: Image.asset(data.image, fit: BoxFit.fitWidth),
+
+                  // child: Icon(
+                  //   Icons.flutter_dash_rounded,
+                  //   size: 120,
+                  //   color: Color(0xFF6750A4),
+                  // ),
                 ),
               ),
             ),

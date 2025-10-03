@@ -15,6 +15,7 @@ void main() {
   ) async {
     const PortfolioConfig config = PortfolioConfig(
       ownerName: 'Test User',
+      image: 'assets/images/profile.png',
       email: 'test@example.com',
       github: 'github.com/test',
       linkedin: 'linkedin.com/in/test',

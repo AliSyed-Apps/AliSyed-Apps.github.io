@@ -14,6 +14,7 @@ class InMemoryPortfolioRepository implements PortfolioRepository {
   PortfolioData getPortfolio() {
     return PortfolioData(
       ownerName: config.ownerName,
+      image: config.image,
       title: 'Flutter Developer',
       summary:
           'Mobile Developer with 3+ years of experience building high-quality cross-platform applications using Flutter. Successfully published 5+ apps to the App Store and Google Play, collectively exceeding 50,000 users. My main focus is on mobile applications.',
@@ -183,6 +184,7 @@ class InMemoryPortfolioRepository implements PortfolioRepository {
 class PortfolioConfig {
   const PortfolioConfig({
     required this.ownerName,
+    required this.image,
     required this.email,
     required this.github,
     required this.linkedin,
@@ -190,6 +192,7 @@ class PortfolioConfig {
   });
 
   final String ownerName;
+  final String image;
   final String email;
   final String github;
   final String linkedin;
