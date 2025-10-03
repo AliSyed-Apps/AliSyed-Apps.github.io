@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:my_portfolio/model/models.dart';
-import 'package:my_portfolio/utils/img.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:my_portfolio/utils/glow.dart';
 
