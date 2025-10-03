@@ -66055,7 +66055,7 @@ s=q.JS(new A.jM(m,A.at(23,n.u()>>>16&255,n.u()>>>8&255,n.u()&255),m,m,m,m,m),new
 q=A.a4d(B.a6,A.adm(B.a6,m,m,B.P),!0)
 o=q.ok.J2(B.j,B.j)
 n=A.aN(l)
-return new A.m5("/","Flutter Developer Portfolio",s,q.JS(new A.jM(m,A.at(23,n.u()>>>16&255,n.u()>>>8&255,n.u()&255),m,m,m,m,m),new A.jT(B.jT,m,m,m,m),B.j,new A.mb(A.o_(m,m,m,new A.bj(B.yA,p),m,m,m,m,m,m,m,m,m,m,m,m,m,m,m,m,m,m,m,m,m)),B.yK,o),r,!1,new A.Bb(this.a.c),$.amj(),m)},
+return new A.m5("/","Ali Syed Portfolio",s,q.JS(new A.jM(m,A.at(23,n.u()>>>16&255,n.u()>>>8&255,n.u()&255),m,m,m,m,m),new A.jT(B.jT,m,m,m,m),B.j,new A.mb(A.o_(m,m,m,new A.bj(B.yA,p),m,m,m,m,m,m,m,m,m,m,m,m,m,m,m,m,m,m,m,m,m)),B.yK,o),r,!1,new A.Bb(this.a.c),$.amj(),m)},
 $S:430}
 A.Bb.prototype={
 K3(){var s,r,q,p=null,o=$.bm(),n=t.nZ,m=$.bv
