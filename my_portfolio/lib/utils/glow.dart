@@ -9,12 +9,12 @@ TextStyle? addGlowToTextStyle(
   return base.copyWith(
     shadows: <Shadow>[
       Shadow(
-        color: color.withOpacity(0.35),
+        color: color.withAlpha(135),
         blurRadius: blurRadius,
         offset: const Offset(0, 0),
       ),
       Shadow(
-        color: color.withOpacity(0.25),
+        color: color.withAlpha(125),
         blurRadius: blurRadius * 0.75,
         offset: const Offset(0, 0),
       ),
@@ -49,7 +49,7 @@ class _GlowWrapperState extends State<GlowWrapper> {
   Widget build(BuildContext context) {
     final List<BoxShadow> shadows = <BoxShadow>[
       BoxShadow(
-        color: widget.color.withOpacity(_hovering ? 0.45 : 0.25),
+        color: widget.color.withAlpha(_hovering ? 145 : 125),
         blurRadius: _hovering ? widget.blurRadius : widget.blurRadius * 0.6,
         spreadRadius: _hovering
             ? widget.spreadRadius
