@@ -18,6 +18,7 @@ void main() {
       email: 'test@example.com',
       github: 'github.com/test',
       linkedin: 'linkedin.com/in/test',
+      phone: '+923176543210',
     );
     final PortfolioRepository repo = InMemoryPortfolioRepository(
       config: config,

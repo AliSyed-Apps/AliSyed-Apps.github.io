@@ -1,15 +1,9 @@
 import 'package:get/get.dart';
-import 'package:my_portfolio/app/bindings.dart';
 import 'package:my_portfolio/view/portfolio/portfolio_page.dart';
 
 class AppPages {
   static List<GetPage<dynamic>> pageList = [
-    GetPage(
-      name: '/',
-      page: () => PortfolioPage(),
-      binding: AppBind(),
-      popGesture: false,
-    ),
+    GetPage(name: '/', page: () => PortfolioPage(), popGesture: false),
 
     // GetPage(name: '/home', page: () => const HomeView(), transition: t),
   ];

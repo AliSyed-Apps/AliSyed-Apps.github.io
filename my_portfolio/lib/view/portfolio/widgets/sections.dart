@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_portfolio/utils/glow.dart';
 
 class SectionHeader extends StatelessWidget {
   const SectionHeader({super.key, required this.title});
@@ -10,9 +11,13 @@ class SectionHeader extends StatelessWidget {
       children: <Widget>[
         Text(
           title,
-          style: Theme.of(
-            context,
-          ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w800),
+          style: addGlowToTextStyle(
+            Theme.of(
+              context,
+            ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w800),
+            color: const Color(0xFF6750A4),
+            blurRadius: 14,
+          ),
         ),
         const SizedBox(height: 8),
         Container(

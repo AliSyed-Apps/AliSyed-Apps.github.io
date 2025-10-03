@@ -58,63 +58,107 @@ class ExperienceSection extends StatelessWidget {
                         style: Theme.of(context).textTheme.labelLarge,
                       ),
                       const SizedBox(height: 12),
-                      ...exp.roles.map((Role role) {
-                        return Padding(
-                          padding: const EdgeInsets.only(top: 8),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Text(
-                                role.title,
-                                style: Theme.of(context).textTheme.titleSmall
-                                    ?.copyWith(fontWeight: FontWeight.w700),
-                              ),
-                              const SizedBox(height: 4),
-                              Text(
-                                role.period,
-                                style: Theme.of(context).textTheme.labelLarge,
-                                // ?.copyWith(color: Colors.black54),
-                              ),
-                              const SizedBox(height: 8),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: role.bullets.map((String b) {
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Column(
+                              children: [
+                                ...exp.roles.map((Role role) {
                                   return Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                      vertical: 4,
-                                    ),
-                                    child: Row(
+                                    padding: const EdgeInsets.only(top: 8),
+                                    child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: <Widget>[
-                                        const Padding(
-                                          padding: EdgeInsets.only(top: 6),
-                                          child: Icon(
-                                            Icons.circle,
-                                            size: 6,
-                                            color: Color(0xFF6750A4),
-                                          ),
+                                        Text(
+                                          role.title,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .titleSmall
+                                              ?.copyWith(
+                                                fontWeight: FontWeight.w700,
+                                              ),
                                         ),
-                                        const SizedBox(width: 8),
-                                        Expanded(
-                                          child: Text(
-                                            b,
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .bodyMedium
-                                                ?.copyWith(height: 1.5),
-                                          ),
+                                        const SizedBox(height: 4),
+                                        Text(
+                                          role.period,
+                                          style: Theme.of(
+                                            context,
+                                          ).textTheme.labelLarge,
+                                          // ?.copyWith(color: Colors.black54),
+                                        ),
+                                        const SizedBox(height: 8),
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: role.bullets.map((
+                                            String b,
+                                          ) {
+                                            return Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                    vertical: 4,
+                                                  ),
+                                              child: Row(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: <Widget>[
+                                                  const Padding(
+                                                    padding: EdgeInsets.only(
+                                                      top: 6,
+                                                    ),
+                                                    child: Icon(
+                                                      Icons.circle,
+                                                      size: 6,
+                                                      color: Color(0xFF6750A4),
+                                                    ),
+                                                  ),
+                                                  const SizedBox(width: 8),
+                                                  Expanded(
+                                                    child: Text(
+                                                      b,
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .bodyMedium
+                                                          ?.copyWith(
+                                                            height: 1.5,
+                                                          ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            );
+                                          }).toList(),
                                         ),
                                       ],
                                     ),
                                   );
-                                }).toList(),
-                              ),
-                            ],
+                                }),
+                              ],
+                            ),
                           ),
-                        );
-                      }),
+                          if (isWide)
+                            Flexible(
+                              child: Padding(
+                                padding: const EdgeInsets.all(20),
+                                child: Align(
+                                  alignment: Alignment.center,
+                                  child: Image.asset(exp.image ?? ''),
+                                ),
+                              ),
+                            ),
+                        ],
+                      ),
+
                       // .toList(),
+                      if (!isWide)
+                        Padding(
+                          padding: const EdgeInsets.all(20),
+                          child: Align(
+                            alignment: Alignment.center,
+                            child: Image.asset(exp.image ?? ''),
+                          ),
+                        ),
                     ],
                   ),
                 ),

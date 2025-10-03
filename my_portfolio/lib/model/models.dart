@@ -43,10 +43,12 @@ class Contacts {
     required this.email,
     required this.github,
     required this.linkedin,
+    required this.phone,
   });
   final String email;
   final String github;
   final String linkedin;
+  final String phone;
 }
 
 class Experience {
@@ -55,11 +57,13 @@ class Experience {
     required this.locationType,
     required this.period,
     required this.roles,
+    required this.image,
   });
   final String company;
   final String locationType; // e.g., On-site, Remote, Hybrid
   final String period; // e.g., Mar 2022 - Present
   final List<Role> roles;
+  final String? image;
 }
 
 class Role {

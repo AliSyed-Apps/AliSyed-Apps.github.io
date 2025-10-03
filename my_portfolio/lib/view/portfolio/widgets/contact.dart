@@ -23,12 +23,17 @@ class ContactSection extends StatelessWidget {
             child: Wrap(
               spacing: 16,
               runSpacing: 12,
-
+              alignment: WrapAlignment.spaceEvenly,
               children: <Widget>[
                 _ContactItem(
                   icon: Icons.email,
                   label: 'Email',
                   value: data.contacts.email,
+                ),
+                _ContactItem(
+                  icon: Icons.phone,
+                  label: 'Phone',
+                  value: data.contacts.phone,
                 ),
                 _ContactItem(
                   icon: Icons.link,

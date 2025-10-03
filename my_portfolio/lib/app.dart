@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:my_portfolio/app/routes.dart';
+import 'package:my_portfolio/app/bindings.dart';
 import 'data/portfolio_repository.dart';
 
-import 'controllers/portfolio_controller.dart';
 import 'utils/theme.dart';
 
 class PortfolioApp extends StatelessWidget {
@@ -13,31 +13,22 @@ class PortfolioApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<ThemeController>(
-      init: ThemeController(),
-      global: false,
-      builder: (ThemeController themeController) {
-        return GetMaterialApp(
-          title: 'Flutter Developer Portfolio',
-          debugShowCheckedModeBanner: false,
-          theme: buildLightTheme(),
-          darkTheme: buildDarkTheme(),
-          themeMode: themeController.themeMode.value,
-          initialRoute: '/',
-          getPages: AppPages.pageList,
-          initialBinding: BindingsBuilder(() {
-            Get.put<PortfolioRepository>(repository, permanent: true);
-            Get.put<PortfolioController>(
-              PortfolioController(repository: Get.find<PortfolioRepository>()),
-              permanent: true,
-            );
-            if (!Get.isRegistered<ThemeController>()) {
-              Get.put<ThemeController>(themeController, permanent: true);
-            }
-          }),
-          // home: PortfolioPage(),
-        );
-      },
-    );
+    if (!Get.isRegistered<ThemeController>()) {
+      Get.put<ThemeController>(ThemeController(), permanent: true);
+    }
+    return Obx(() {
+      final ThemeMode mode = Get.find<ThemeController>().themeMode.value;
+      return GetMaterialApp(
+        title: 'Flutter Developer Portfolio',
+        debugShowCheckedModeBanner: false,
+        theme: buildLightTheme(),
+        darkTheme: buildDarkTheme(),
+        themeMode: mode,
+        initialRoute: '/',
+        getPages: AppPages.pageList,
+        initialBinding: AppBind(repository: repository),
+        // home: PortfolioPage(),
+      );
+    });
   }
 }

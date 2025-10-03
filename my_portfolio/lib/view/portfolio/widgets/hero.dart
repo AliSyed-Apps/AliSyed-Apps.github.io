@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_portfolio/model/models.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:my_portfolio/utils/glow.dart';
 
 class HeroSection extends StatelessWidget {
   const HeroSection({super.key, required this.isWide, required this.data});
@@ -32,17 +33,25 @@ class HeroSection extends StatelessWidget {
                 Text(
                   data.ownerName,
                   textAlign: isWide ? TextAlign.start : TextAlign.center,
-                  style: Theme.of(context).textTheme.displaySmall?.copyWith(
-                    fontWeight: FontWeight.w800,
+                  style: addGlowToTextStyle(
+                    Theme.of(context).textTheme.displaySmall?.copyWith(
+                      fontWeight: FontWeight.w800,
+                    ),
+                    color: const Color(0xFF6750A4),
+                    blurRadius: 18,
                   ),
                 ),
                 const SizedBox(height: 12),
                 Text(
                   data.title,
                   textAlign: isWide ? TextAlign.start : TextAlign.center,
-                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                  style: addGlowToTextStyle(
+                    Theme.of(context).textTheme.titleLarge?.copyWith(
+                      color: const Color(0xFF6750A4),
+                      fontWeight: FontWeight.w700,
+                    ),
                     color: const Color(0xFF6750A4),
-                    fontWeight: FontWeight.w700,
+                    blurRadius: 14,
                   ),
                 ),
                 const SizedBox(height: 16),
@@ -64,23 +73,29 @@ class HeroSection extends StatelessWidget {
                       ? WrapAlignment.start
                       : WrapAlignment.center,
                   children: <Widget>[
-                    FilledButton.icon(
-                      onPressed: () async {
-                        String email = data.contacts.email;
-                        String url = 'mailto:$email?subject=&body=';
-                        await launchUrl(Uri.parse(url));
-                      },
-                      icon: const Icon(Icons.email),
-                      label: const Text('Contact Me'),
+                    GlowWrapper(
+                      color: const Color(0xFF6750A4),
+                      child: FilledButton.icon(
+                        onPressed: () async {
+                          String email = data.contacts.email;
+                          String url = 'mailto:$email?subject=&body=';
+                          await launchUrl(Uri.parse(url));
+                        },
+                        icon: const Icon(Icons.email),
+                        label: const Text('Contact Me'),
+                      ),
                     ),
-                    OutlinedButton.icon(
-                      onPressed: () async {
-                        String url =
-                            'https://drive.google.com/file/d/12N9wH28T6_t4MVUnrmottIzcv4N-BtHb/view?usp=drivesdk';
-                        await launchUrl(Uri.parse(url));
-                      },
-                      icon: const Icon(Icons.file_download),
-                      label: const Text('Download CV'),
+                    GlowWrapper(
+                      color: const Color(0xFF6750A4),
+                      child: OutlinedButton.icon(
+                        onPressed: () async {
+                          String url =
+                              'https://drive.google.com/file/d/12N9wH28T6_t4MVUnrmottIzcv4N-BtHb/view?usp=drivesdk';
+                          await launchUrl(Uri.parse(url));
+                        },
+                        icon: const Icon(Icons.file_download),
+                        label: const Text('Download CV'),
+                      ),
                     ),
                   ],
                 ),

@@ -122,6 +122,7 @@ class InMemoryPortfolioRepository implements PortfolioRepository {
           company: 'RizV Tech Pvt. Ltd.',
           locationType: 'On-site & Remote',
           period: 'Mar 2022 – Present',
+          image: AppImages.p1,
           roles: const <Role>[
             Role(
               title: 'Flutter Developer – Remote',
@@ -173,6 +174,7 @@ class InMemoryPortfolioRepository implements PortfolioRepository {
         email: config.email,
         github: config.github,
         linkedin: config.linkedin,
+        phone: config.phone,
       ),
     );
   }
@@ -184,10 +186,12 @@ class PortfolioConfig {
     required this.email,
     required this.github,
     required this.linkedin,
+    required this.phone,
   });
 
   final String ownerName;
   final String email;
   final String github;
   final String linkedin;
+  final String phone;
 }
